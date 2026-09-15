@@ -1,5 +1,6 @@
 package com.bootcamp.retocustomer.service;
 
+import com.bootcamp.retocustomer.CustomerRepository;
 import com.bootcamp.retocustomer.entity.Customer;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,11 @@ import java.util.NoSuchElementException;
 public class CustomerService {
 
     private final ArrayList<Customer> customers = new ArrayList<>(List.of());
+    private CustomerRepository repository;
 
+    public CustomerService(CustomerRepository repository) {
+        this.repository = repository;
+    }
 
     /**
      * crear un nuevo customer
@@ -45,7 +50,7 @@ public class CustomerService {
      */
 
     public Customer save(Customer newCustomer){
-        customers.add(newCustomer);
+        this.repository.save(newCustomer);
         return newCustomer;
     }
     /**

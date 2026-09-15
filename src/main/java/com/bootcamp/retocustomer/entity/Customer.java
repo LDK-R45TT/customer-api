@@ -1,13 +1,19 @@
 package com.bootcamp.retocustomer.entity;
 
+import com.google.errorprone.annotations.InlineMeValidationDisabled;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicLong;
 
+@Entity
+@Table(name = "clientes")
 public class Customer {
 
-    private static Long idCounter = 0L;
 
-    private Long id = 0L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String dni;
     private String name;
     private String lastname;
@@ -17,7 +23,6 @@ public class Customer {
     }
 
     public Customer(String dni, String name, String lastname, Integer age) {
-        this.id = ++idCounter;
         this.dni = dni;
         this.name = name;
         this.lastname = lastname;
@@ -28,9 +33,6 @@ public class Customer {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getDni() {
         return dni;

@@ -1,12 +1,10 @@
 package com.bootcamp.retocustomer.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class CustomerRequest {
-    @Max(value = 8, message = "el dni debe tener 8 digitos")
+    @NotBlank(message = "El DNI no puede estar vacío")
+    @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 dígitos")
     @NotNull
     private String dni;
     @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")

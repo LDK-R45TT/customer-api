@@ -4,12 +4,12 @@ public class CustomerResponse {
 
     private String dni;
     private String fullname;
-    private String age;
+    private Integer age;
 
     public CustomerResponse() {
     }
 
-    public CustomerResponse(String dni, String fullname, String age) {
+    public CustomerResponse(String dni, String fullname, Integer age) {
         this.dni = dni;
         this.fullname = fullname;
         this.age = age;
@@ -31,11 +31,11 @@ public class CustomerResponse {
         this.fullname = fullname;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 }

@@ -1,7 +1,12 @@
 package com.bootcamp.retocustomer.controller;
 
+import com.bootcamp.retocustomer.dto.CustomerRequest;
+import com.bootcamp.retocustomer.dto.CustomerResponse;
 import com.bootcamp.retocustomer.entity.Customer;
 import com.bootcamp.retocustomer.service.CustomerService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -29,8 +34,15 @@ public class CustomerController {
     }
     //3-crear nuevo
     @PostMapping("/")
-    public Customer insertOne(@RequestBody Customer newCustomer){
-        return customerService.save(newCustomer);
+    public ResponseEntity<CustomerResponse> insertOne(@Valid @RequestBody CustomerRequest request){
+        Customer newCustomer = new Customer();
+        newCustomer.setName(request.getName());
+        newCustomer.setLastname(request.getLastname());
+        newCustomer.setDni(request.getDni());
+        newCustomer.setAge(request.getAge());
+        customerService.save(newCustomer);
+        CustomerResponse response = new CustomerResponse(newCustomer.getDni(), String.format("%s %s", newCustomer.getName(), newCustomer.getLastname()),newCustomer.getAge());
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     //4-eliminar por id
     @DeleteMapping("/delete/{id}")
