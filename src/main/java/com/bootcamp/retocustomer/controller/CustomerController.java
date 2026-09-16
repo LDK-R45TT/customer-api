@@ -41,7 +41,10 @@ public class CustomerController {
         newCustomer.setDni(request.getDni());
         newCustomer.setAge(request.getAge());
         customerService.save(newCustomer);
-        CustomerResponse response = new CustomerResponse(newCustomer.getDni(), String.format("%s %s", newCustomer.getName(), newCustomer.getLastname()),newCustomer.getAge());
+        CustomerResponse response =
+                new CustomerResponse(newCustomer.getDni(),
+                        String.format("%s %s", newCustomer.getName(), newCustomer.getLastname()),
+                        newCustomer.getAge(), newCustomer.getActive());
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     //4-eliminar por id

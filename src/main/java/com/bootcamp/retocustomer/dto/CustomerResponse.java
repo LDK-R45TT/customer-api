@@ -5,14 +5,16 @@ public class CustomerResponse {
     private String dni;
     private String fullname;
     private Integer age;
-
+    private Boolean active;
     public CustomerResponse() {
     }
 
-    public CustomerResponse(String dni, String fullname, Integer age) {
+
+    public CustomerResponse(String dni, String fullname, Integer age, Boolean active) {
         this.dni = dni;
         this.fullname = fullname;
         this.age = age;
+        this.active = active;
     }
 
     public String getDni() {
@@ -37,5 +39,13 @@ public class CustomerResponse {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

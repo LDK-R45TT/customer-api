@@ -18,7 +18,7 @@ public class Customer {
     private String name;
     private String lastname;
     private Integer age;
-
+    private Boolean active=true;
     public Customer() {
     }
 
@@ -64,5 +64,13 @@ public class Customer {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

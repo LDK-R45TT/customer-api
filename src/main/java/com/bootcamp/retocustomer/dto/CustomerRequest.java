@@ -1,20 +1,23 @@
 package com.bootcamp.retocustomer.dto;
 
 import jakarta.validation.constraints.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 public class CustomerRequest {
     @NotBlank(message = "El DNI no puede estar vacío")
     @Size(min = 8, max = 8, message = "El DNI debe tener exactamente 8 dígitos")
-    @NotNull
+    @Pattern(regexp = "^[0-9]+$", message = "El DNI debe contener solo números")
     private String dni;
+    @NotBlank(message = "el nombre no puede estar vacio")
     @Size(min = 3, max = 50, message = "El nombre debe tener entre 3 y 50 caracteres")
     private String name;
-    @NotNull
+    @NotBlank(message = "el apellido no puede estar vacio")
     private String lastname;
-    @Positive
     @NotNull
+    @Min(value = 18, message = "El cliente debe ser mayor de edad (mínimo 18 años)")
     @Max(value = 90, message = "el cliente debe tener maximo 90 años")
     private Integer age;
+
 
     public CustomerRequest() {
     }
@@ -57,4 +60,6 @@ public class CustomerRequest {
     public void setAge(Integer age) {
         this.age = age;
     }
+
+
 }
