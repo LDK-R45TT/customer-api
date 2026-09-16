@@ -1,5 +1,6 @@
 package com.bootcamp.retocustomer.entity;
 
+import com.bootcamp.retocustomer.dto.CustomerResponse;
 import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import jakarta.persistence.*;
 
@@ -27,6 +28,10 @@ public class Customer {
         this.name = name;
         this.lastname = lastname;
         this.age = age;
+    }
+
+    public CustomerResponse toDto(){
+        return new CustomerResponse(dni, String.format("%s %s", name, lastname),age, active);
     }
 
     public Long getId() {

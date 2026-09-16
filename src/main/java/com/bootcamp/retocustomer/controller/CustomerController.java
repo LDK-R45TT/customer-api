@@ -22,8 +22,11 @@ public class CustomerController {
 
     //1-obtener todos
     @GetMapping("/all")
-    public List<Customer> getAll(){
-        return customerService.getAll();
+    public List<CustomerResponse> getAll(){
+
+        return customerService.getAll().stream().map(it->it.toDto()).toList();
+
+
     }
 
 

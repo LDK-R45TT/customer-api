@@ -15,7 +15,7 @@ public class CustomerRequest {
     private String lastname;
     @NotNull
     @Min(value = 18, message = "El cliente debe ser mayor de edad (mínimo 18 años)")
-    @Max(value = 90, message = "el cliente debe tener maximo 90 años")
+    @Max(value = 70, message = "el cliente debe tener maximo 70 años")
     private Integer age;
 
 
