@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
 @Service
 public class CustomerService {
 
-    private final ArrayList<Customer> customers = new ArrayList<>(List.of());
+
     private CustomerRepository repository;
 
     public CustomerService(CustomerRepository repository) {
@@ -20,11 +20,17 @@ public class CustomerService {
     }
 
     /**
-     * crear un nuevo customer
+     * agrega listado completo customers
      * @param customerList  listado de customers.
      * */
     public void insertAll(List<Customer>customerList){
-        customerList.forEach(it->customers.add(it));
+        customerList.forEach(it->{
+            Customer clienteEncontrado = repository.findByDni(it.getDni());
+            if(clienteEncontrado != null){
+                throw new RuntimeException(String.format("cliente con dni %s ya existe", it.getDni()));
+            }
+        });
+        repository.saveAll(customerList);
     }
 
     /**
@@ -32,7 +38,7 @@ public class CustomerService {
      * @return  retorna list de customers
      */
     public List<Customer> getAll(){
-        return customers;
+        return repository.findAll();
     }
     /**
      * obtener por id
@@ -40,8 +46,8 @@ public class CustomerService {
      * @return  Customer filtrado
      * */
     public Customer getById(Long id){
-        return customers.stream().filter(it->it.getId().equals(id))
-                .findFirst().orElseThrow(()-> new NoSuchElementException("customer not found"));
+        return repository.findById(id)
+                .orElseThrow(NoSuchElementException::new);
     }
     /**
      * agregar customer en lista
@@ -58,21 +64,17 @@ public class CustomerService {
      * @param id -> identificador customer
      */
     public void delete(Long id){
-        customers.removeIf(it->it.getId().equals(id));
+
+        Customer cus = this.getById(id);
+        repository.delete(cus);
     }
     /**
      * limpia listado de customer
      * */
     public void deleteAll(){
-        customers.clear();
+        repository.deleteAll();
     }
-    /**
-     * agrega listado completo customers
-     * @param customerList -> lista de customer
-     */
-    public void addAll(List<Customer> customerList){
-        customers.addAll(customerList);
 
-    }
+
 
 }
