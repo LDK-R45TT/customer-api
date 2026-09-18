@@ -1,11 +1,8 @@
 package com.bootcamp.retocustomer.entity;
 
 import com.bootcamp.retocustomer.dto.CustomerResponse;
-import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import jakarta.persistence.*;
 
-import java.util.UUID;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 @Table(name = "clientes")
@@ -30,8 +27,18 @@ public class Customer {
         this.age = age;
     }
 
-    public CustomerResponse toDto(){
-        return new CustomerResponse(dni, String.format("%s %s", name, lastname),age, active);
+    public CustomerResponse toDto() {
+        return
+                new CustomerResponse(dni,
+                        String.format("%s %s", name, lastname),
+                        age, active);
+    }
+    public void actualizarCliente(Customer clienteNuevo){
+        this.setName(clienteNuevo.getName());
+        this.setLastname(clienteNuevo.getLastname());
+        this.setDni(clienteNuevo.getDni());
+        this.setAge(clienteNuevo.getAge());
+        this.setActive(clienteNuevo.getActive());
     }
 
     public Long getId() {

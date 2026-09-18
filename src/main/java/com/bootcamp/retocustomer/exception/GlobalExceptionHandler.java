@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .forEach(fe->errors.put(fe.getField(), fe.getDefaultMessage()));
         ErrorResponse error = new ErrorResponse(
-                400, "Datos Invalidos", LocalDateTime.now(), errors
+                HttpStatus.BAD_REQUEST.value(), "Datos Invalidos", LocalDateTime.now(), errors
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

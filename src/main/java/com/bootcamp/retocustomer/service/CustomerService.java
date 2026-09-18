@@ -2,9 +2,10 @@ package com.bootcamp.retocustomer.service;
 
 import com.bootcamp.retocustomer.CustomerRepository;
 import com.bootcamp.retocustomer.entity.Customer;
+import com.bootcamp.retocustomer.exception.CustomerDeletionNotAllowedException;
+import com.bootcamp.retocustomer.exception.CustomerDuplicatedException;
+import com.bootcamp.retocustomer.exception.CustomerNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,9 +26,10 @@ public class CustomerService {
      * */
     public void insertAll(List<Customer>customerList){
         customerList.forEach(it->{
-            Customer clienteEncontrado = repository.findByDni(it.getDni());
+            Customer clienteEncontrado = repository.findFirstByDni(it.getDni());
             if(clienteEncontrado != null){
-                throw new RuntimeException(String.format("cliente con dni %s ya existe", it.getDni()));
+                throw new CustomerDuplicatedException
+                        (String.format("cliente con dni %s ya existe", it.getDni()));
             }
         });
         repository.saveAll(customerList);
@@ -56,7 +58,11 @@ public class CustomerService {
      */
 
     public Customer save(Customer newCustomer){
-        this.repository.save(newCustomer);
+        Customer clienteEncontrado = repository.findFirstByDni(newCustomer.getDni());
+        if(clienteEncontrado != null){
+            throw new CustomerDuplicatedException(String.format("cliente con dni %s ya existe", clienteEncontrado.getDni()));
+        }
+        repository.save(newCustomer);
         return newCustomer;
     }
     /**
@@ -65,9 +71,35 @@ public class CustomerService {
      */
     public void delete(Long id){
 
-        Customer cus = this.getById(id);
+        Customer cus = getById(id);
+        if(cus.getActive()){
+            throw new CustomerDeletionNotAllowedException
+                    ("customer "+cus.getName()+
+                            " no se puede eliminar porque esta activo.");
+        }
         repository.delete(cus);
     }
+    /**
+     * obtener nombre
+     * @param name nombre customer*/
+    public Customer getByName(String name) {
+        Customer clienteEncontrado = repository.findFirstByName(name);
+        if(clienteEncontrado == null){
+           throw new CustomerNotFoundException("el cliente con nombre "+name+" no existe");
+        }
+        return clienteEncontrado;
+    }
+    /**
+     * actualizar customer
+     * @param customerUpdate customer
+     * @param id identificador customer*/
+    public Customer update(Customer customerUpdate, Long id) {
+        Customer clienteEncontrado = getById(id);
+        //actualizacion atributos
+        clienteEncontrado.actualizarCliente(customerUpdate);
+        return repository.save(clienteEncontrado);
+    }
+
     /**
      * limpia listado de customer
      * */

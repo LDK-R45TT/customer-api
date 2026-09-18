@@ -17,6 +17,8 @@ public class CustomerResponse {
         this.active = active;
     }
 
+
+
     public String getDni() {
         return dni;
     }

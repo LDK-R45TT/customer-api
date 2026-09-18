@@ -22,18 +22,17 @@ public class CustomerController {
 
     //1-obtener todos
     @GetMapping("/all")
-    public List<CustomerResponse> getAll(){
-
-        return customerService.getAll().stream().map(it->it.toDto()).toList();
-
-
+    public ResponseEntity<List<CustomerResponse>> getAll(){
+        List<CustomerResponse> response = customerService.getAll().stream().map(it->it.toDto()).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
     //2-obtener por id
     @GetMapping("/{id}")
-    public Customer getById(@PathVariable("id") Long clientId){
-        return customerService.getById(clientId);
+    public ResponseEntity<CustomerResponse> getById(@PathVariable("id") Long clientId){
+        CustomerResponse response =customerService.getById(clientId).toDto();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     //3-crear nuevo
     @PostMapping("/")
@@ -44,28 +43,45 @@ public class CustomerController {
         newCustomer.setDni(request.getDni());
         newCustomer.setAge(request.getAge());
         customerService.save(newCustomer);
-        CustomerResponse response =
-                new CustomerResponse(newCustomer.getDni(),
-                        String.format("%s %s", newCustomer.getName(), newCustomer.getLastname()),
-                        newCustomer.getAge(), newCustomer.getActive());
+        CustomerResponse response = newCustomer.toDto();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
     //4-eliminar por id
     @DeleteMapping("/delete/{id}")
-    public void deleteOne(@PathVariable("id") Long clientId){
+    public ResponseEntity<?> deleteOne(@PathVariable("id") Long clientId){
         customerService.delete(clientId);
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    //deletear todos
+    //5-obtener por nombre
+    @GetMapping("/por-nombre")
+    public ResponseEntity<CustomerResponse> obtenerPorNombre(@RequestParam String name){
+            CustomerResponse response = customerService.getByName(name).toDto();
+        return  ResponseEntity.status(HttpStatus.FOUND).body(response);
+    }
+    //6-deletear todos
     @DeleteMapping("/delete-all")
-    public void deleteAll(){
+    public ResponseEntity<?> deleteAll(){
         customerService.deleteAll();
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
-    //agregar todos
+    //7-agregar todos
     @PostMapping("/all")
-    public List<Customer> addAll(@RequestBody List<Customer> customers){
-        customerService.insertAll(customers);
-        return customers;
+    public ResponseEntity<List<CustomerResponse>> addAll(@Valid @RequestBody List<CustomerRequest> customers){
+        List<Customer> customersEntity = customers.stream().map(it->it.toCustomer()).toList();
+        customerService.insertAll(customersEntity);
+        List<CustomerResponse> response =customersEntity.stream().map(it->it.toDto()).toList();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    //8-actualizar porid
+    @PutMapping("/actualizar/{id}")
+    public ResponseEntity<CustomerResponse> actualizaCliente(@Valid @PathVariable("id") Long idCliente, @RequestBody CustomerRequest clienteActualizar){
+        Customer customer = clienteActualizar.toCustomer();
+        customerService.update(customer, idCliente);
+        return ResponseEntity.status(HttpStatus.OK).body(customer.toDto());
+    }
+
+
 
 
 }

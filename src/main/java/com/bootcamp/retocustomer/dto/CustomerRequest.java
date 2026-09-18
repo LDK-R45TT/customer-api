@@ -1,7 +1,8 @@
 package com.bootcamp.retocustomer.dto;
 
+import com.bootcamp.retocustomer.entity.Customer;
 import jakarta.validation.constraints.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+
 
 public class CustomerRequest {
     @NotBlank(message = "El DNI no puede estar vacío")
@@ -29,6 +30,9 @@ public class CustomerRequest {
         this.age = age;
     }
 
+    public Customer toCustomer(){
+        return new Customer(dni, name,lastname, age);
+    }
     public String getDni() {
         return dni;
     }
