@@ -1,11 +1,11 @@
 
 # :trophy: CUSTOMER API: Validaciones y Excepciones en Spring Boot
-___
+
 
 En esta entrega se adelantó la parte de implementacion de validaciones, DTOs, manejo de excepciones y business logic en el service...
 
 ## 🧩 Estructura del Proyecto
-___
+
 
 ```tree /F
 src                                                            
@@ -40,7 +40,7 @@ src
 ```
 
 ## 🧱 Implementaciones
-___
+
 ### ✅Validaciones:
 - **`dni`** (`String`)
     - **Restricciones:** No puede estar vacío, debe tener exactamente 8 caracteres y contener únicamente números.
@@ -75,7 +75,6 @@ ___
 | **`DELETE`**                 | `/customer/delete-all`      | Elimina todos los clientes                     | `200 OK`                |
 
 ## 📆 Branch utilizado
-___
 
 > Todos estos cambios se encuentran en la rama `reto-validation` del repositorio:  
 >**[LDK-R45TT / customer-api (Branch: reto-validation)](https://github.com/LDK-R45TT/customer-api/commits/reto-validation)**
