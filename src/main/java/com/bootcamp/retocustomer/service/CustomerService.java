@@ -49,7 +49,7 @@ public class CustomerService {
      * */
     public Customer getById(Long id){
         return repository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(()-> new CustomerNotFoundException("el cliente con id= "+id+" no existe"));
     }
     /**
      * agregar customer en lista

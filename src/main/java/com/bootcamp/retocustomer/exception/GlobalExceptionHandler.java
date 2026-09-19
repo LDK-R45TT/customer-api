@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 null
         );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
     /*exception duplicated customer*/
@@ -57,7 +57,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 null
         );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(err);
     }
 
 }
